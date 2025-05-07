@@ -1,0 +1,59 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.container {
+  @include card;
+  width: 100%;
+}
+
+.title {
+  font-size: $heading-3;
+  font-weight: 600;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-sm;
+  border-bottom: 1px solid $light-gray;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: $spacing-md;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+  
+  @include media-breakpoint-up(sm) {
+    flex-direction: row;
+    
+    .formGroup {
+      flex: 1;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.budgetError {
+  background-color: rgba($error-color, 0.1);
+  color: $error-color;
+  padding: $spacing-md;
+  border-radius: $border-radius-sm;
+  margin-bottom: $spacing-lg;
+  font-weight: 500;
+}
+
+.successMessage {
+  background-color: rgba($success-color, 0.1);
+  color: $success-color;
+  padding: $spacing-xl;
+  border-radius: $border-radius-sm;
+  text-align: center;
+  font-weight: 500;
+  font-size: $font-size-lg;
+} 

@@ -1,0 +1,48 @@
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-lg;
+  background-color: $background-color;
+  
+  @include media-breakpoint-up(md) {
+    padding: $spacing-xl;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+  
+  @include media-breakpoint-up(md) {
+    margin-bottom: $spacing-xxl;
+  }
+}
+
+.title {
+  @include heading-1;
+  color: $primary-color;
+  margin-bottom: $spacing-sm;
+}
+
+.subtitle {
+  font-size: $font-size-lg;
+  color: $dark-gray;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: $spacing-xxl;
+}
+
+.formTitle {
+  @include heading-3;
+  margin-bottom: $spacing-lg;
+  text-align: center;
+} 

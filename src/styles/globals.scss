@@ -1,0 +1,148 @@
+@import 'variables';
+@import 'mixins';
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+}
+
+body {
+  color: $text-color;
+  background-color: $background-color;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: $transition-base;
+  
+  &:hover {
+    color: darken($primary-color, 10%);
+    text-decoration: underline;
+  }
+}
+
+button {
+  @include button-base;
+}
+
+input, textarea, select {
+  @include input-base;
+  margin-bottom: $spacing-md;
+}
+
+ul, ol {
+  list-style-position: inside;
+  margin-bottom: $spacing-md;
+}
+
+h1 {
+  @include heading-1;
+  margin-bottom: $spacing-lg;
+}
+
+h2 {
+  @include heading-2;
+  margin-bottom: $spacing-md;
+}
+
+h3 {
+  @include heading-3;
+  margin-bottom: $spacing-sm;
+}
+
+h4 {
+  @include heading-4;
+  margin-bottom: $spacing-sm;
+}
+
+p {
+  margin-bottom: $spacing-md;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+  
+  @include media-breakpoint-up(md) {
+    padding: 0 $spacing-lg;
+  }
+}
+
+.section {
+  padding: $spacing-lg 0;
+  
+  @include media-breakpoint-up(md) {
+    padding: $spacing-xl 0;
+  }
+  
+  @include media-breakpoint-up(lg) {
+    padding: $spacing-xxl 0;
+  }
+}
+
+.card {
+  @include card;
+  margin-bottom: $spacing-lg;
+}
+
+.btn {
+  &-primary {
+    @include button-primary;
+  }
+  
+  &-secondary {
+    @include button-secondary;
+  }
+  
+  &-outline {
+    @include button-outline;
+  }
+}
+
+.grid {
+  @include grid(1, $spacing-md);
+  
+  @include media-breakpoint-up(sm) {
+    @include grid(2, $spacing-md);
+  }
+  
+  @include media-breakpoint-up(lg) {
+    @include grid(3, $spacing-lg);
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-xs { margin-bottom: $spacing-xs; }
+.mb-sm { margin-bottom: $spacing-sm; }
+.mb-md { margin-bottom: $spacing-md; }
+.mb-lg { margin-bottom: $spacing-lg; }
+.mb-xl { margin-bottom: $spacing-xl; }
+
+.mt-xs { margin-top: $spacing-xs; }
+.mt-sm { margin-top: $spacing-sm; }
+.mt-md { margin-top: $spacing-md; }
+.mt-lg { margin-top: $spacing-lg; }
+.mt-xl { margin-top: $spacing-xl; }
+
+.p-xs { padding: $spacing-xs; }
+.p-sm { padding: $spacing-sm; }
+.p-md { padding: $spacing-md; }
+.p-lg { padding: $spacing-lg; }
+.p-xl { padding: $spacing-xl; } 

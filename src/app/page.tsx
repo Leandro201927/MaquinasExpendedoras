@@ -1,103 +1,116 @@
-import Image from "next/image";
+'use client';
+
+import { mockMachines, mockProducts } from '@/data/mockData';
+import Link from 'next/link';
+import MachineCard from '@/components/machines/MachineCard';
+import ProductCard from '@/components/products/ProductCard';
+import { Suspense } from 'react';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="space-y-12">
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="container text-center">
+          <h1>Sistema Inteligente de Máquinas Expendedoras</h1>
+          <p>
+            Gestiona tus máquinas expendedoras, realiza compras y optimiza tu inventario
+            con nuestra plataforma completa.
+          </p>
+          <div className="cta-buttons">
+            <Link href="/machines" className="btn btn-primary">
+              Ver Máquinas
+            </Link>
+            <Link href="/login" className="btn btn-outline">
+              Iniciar Sesión
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Máquinas Recientes */}
+      <section className="section">
+        <div className="section-header">
+          <h2>Máquinas Disponibles</h2>
+          <Link href="/machines">
+            Ver todas
+          </Link>
+        </div>
+        
+        <div className="grid md:grid-cols-3">
+          <Suspense fallback={<div>Cargando máquinas...</div>}>
+            {mockMachines
+              .filter(machine => machine.status === 'active')
+              .slice(0, 3)
+              .map((machine) => (
+                <MachineCard key={machine.id} machine={machine} />
+              ))}
+          </Suspense>
+        </div>
+      </section>
+
+      {/* Productos Populares */}
+      <section className="section">
+        <div className="section-header">
+          <h2>Productos Populares</h2>
+          <Link href="/products">
+            Ver todos
+          </Link>
+        </div>
+        
+        <div className="grid sm:grid-cols-3 lg:grid-cols-6">
+          <Suspense fallback={<div>Cargando productos...</div>}>
+            {mockProducts.slice(0, 6).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </Suspense>
+        </div>
+      </section>
+
+      {/* Características */}
+      <section className="features">
+        <h2>Características del Sistema</h2>
+        
+        <div className="grid md:grid-cols-3">
+          <div className="feature-card">
+            <div className="icon">👨‍💼</div>
+            <h3>Administradores</h3>
+            <p>
+              Gestiona usuarios, máquinas y productos desde un panel centralizado.
+              Obtén informes detallados y monitorea todas las operaciones.
+            </p>
+          </div>
+          
+          <div className="feature-card">
+            <div className="icon">🔧</div>
+            <h3>Operadores</h3>
+            <p>
+              Supervisa el estado de las máquinas asignadas, reabastece productos
+              y resuelve incidencias rápidamente.
+            </p>
+          </div>
+          
+          <div className="feature-card">
+            <div className="icon">👥</div>
+            <h3>Clientes</h3>
+            <p>
+              Encuentra máquinas cercanas, explora productos disponibles
+              y realiza compras rápidamente con múltiples métodos de pago.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Llamada a la acción */}
+      <section className="text-center features">
+        <h2>¿Quieres saber más?</h2>
+        <p className="mb-6">
+          Contáctanos para obtener más información sobre cómo implementar nuestro sistema en tu negocio.
+        </p>
+        <Link href="/contact" className="btn btn-primary">
+          Contactar
+        </Link>
+      </section>
     </div>
   );
 }

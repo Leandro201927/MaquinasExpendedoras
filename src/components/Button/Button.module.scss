@@ -1,0 +1,50 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.button {
+  @include button-base;
+  
+  &.primary {
+    @include button-primary;
+  }
+  
+  &.secondary {
+    @include button-secondary;
+  }
+  
+  &.outline {
+    @include button-outline;
+  }
+  
+  &.danger {
+    @include button-base;
+    background-color: $error-color;
+    color: $white;
+    
+    &:hover, &:focus {
+      background-color: darken($error-color, 10%);
+    }
+  }
+  
+  &.fullWidth {
+    width: 100%;
+    display: block;
+  }
+}
+
+.loader {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: $white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: $spacing-sm;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+} 
