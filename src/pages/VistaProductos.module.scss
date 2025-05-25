@@ -1,0 +1,164 @@
+@use '../styles/variables' as vars;
+@use '../styles/mixins' as mix;
+
+.container {
+  padding: vars.$spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  h1 {
+    @include mix.heading-2;
+    margin-bottom: vars.$spacing-lg;
+    text-align: center;
+  }
+}
+
+.productosGrid {
+  @include mix.grid(1, vars.$spacing-md);
+  margin-top: vars.$spacing-lg;
+  
+  @include mix.media-sm {
+    @include mix.grid(2, vars.$spacing-md);
+  }
+  
+  @include mix.media-md {
+    @include mix.grid(3, vars.$spacing-lg);
+  }
+  
+  @include mix.media-lg {
+    @include mix.grid(4, vars.$spacing-lg);
+  }
+}
+
+.loading {
+  @include mix.flex-center;
+  padding: vars.$spacing-xl;
+  color: vars.$primary-600;
+  font-weight: 500;
+  
+  svg {
+    margin-right: vars.$spacing-sm;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.noResults {
+  @include mix.flex-column-center;
+  padding: vars.$spacing-xl;
+  text-align: center;
+  
+  p {
+    color: vars.$dark-gray;
+    margin-bottom: vars.$spacing-md;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.filters {
+  @include mix.card;
+  margin-bottom: vars.$spacing-lg;
+  
+  .filterHeader {
+    @include mix.flex-between;
+    margin-bottom: vars.$spacing-md;
+    
+    h2 {
+      @include mix.heading-4;
+      margin: 0;
+    }
+  }
+  
+  .filterGroup {
+    margin-bottom: vars.$spacing-md;
+    
+    label {
+      display: block;
+      margin-bottom: vars.$spacing-sm;
+      font-weight: 500;
+      color: vars.$text-color;
+    }
+    
+    select, input {
+      @include mix.input-base;
+      width: 100%;
+    }
+  }
+  
+  .filterActions {
+    @include mix.flex;
+    gap: vars.$spacing-md;
+    margin-top: vars.$spacing-lg;
+    
+    button {
+      flex: 1;
+    }
+  }
+}
+
+.productCard {
+  @include mix.card;
+  transition: transform 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-4px);
+  }
+  
+  .productImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: vars.$border-radius;
+    margin-bottom: vars.$spacing-md;
+  }
+  
+  .productInfo {
+    h3 {
+      @include mix.heading-5;
+      margin-bottom: vars.$spacing-sm;
+    }
+    
+    .price {
+      color: vars.$primary-600;
+      font-weight: 600;
+      font-size: vars.$font-size-lg;
+      margin-bottom: vars.$spacing-sm;
+    }
+    
+    .description {
+      color: vars.$dark-gray;
+      margin-bottom: vars.$spacing-md;
+      @include mix.text-sm;
+    }
+  }
+  
+  .productActions {
+    @include mix.flex-between;
+    margin-top: vars.$spacing-md;
+  }
+}
+
+.error {
+  @include mix.card;
+  background-color: rgba(vars.$error-color, 0.1);
+  color: vars.$error-color;
+  text-align: center;
+  padding: vars.$spacing-lg;
+  margin: vars.$spacing-lg 0;
+  
+  h3 {
+    @include mix.heading-4;
+    margin-bottom: vars.$spacing-sm;
+  }
+  
+  p {
+    margin-bottom: vars.$spacing-md;
+  }
+} 

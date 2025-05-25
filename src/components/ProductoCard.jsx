@@ -39,7 +39,6 @@ const ProductoCard = ({ producto, onVerDetalle }) => {
       whileHover="hover"
       className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group relative border border-gray-100"
     >
-      {/* Imagen del producto */}
       <div className="relative h-48 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
         <motion.img
           variants={imageVariants}
@@ -53,10 +52,8 @@ const ProductoCard = ({ producto, onVerDetalle }) => {
           }}
         />
         
-        {/* Overlay gradiente */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
-        {/* Badge de stock bajo */}
         {stock <= 5 && stock > 0 && (
           <motion.div 
             initial={{ scale: 0 }}
@@ -70,7 +67,6 @@ const ProductoCard = ({ producto, onVerDetalle }) => {
           </motion.div>
         )}
         
-        {/* Badge sin stock */}
         {stock === 0 && (
           <motion.div 
             initial={{ scale: 0 }}
@@ -83,7 +79,6 @@ const ProductoCard = ({ producto, onVerDetalle }) => {
           </motion.div>
         )}
 
-        {/* Categoría badge */}
         <div className="absolute top-3 left-3">
           <div className="bg-white/90 backdrop-blur-sm text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full shadow-sm">
             {categoria}
@@ -91,27 +86,22 @@ const ProductoCard = ({ producto, onVerDetalle }) => {
         </div>
       </div>
 
-      {/* Contenido de la tarjeta */}
       <div className="p-5">
-        {/* Título del producto */}
         <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 min-h-[3.5rem] leading-tight">
           {nombre}
         </h3>
 
-        {/* Marca */}
         <div className="flex items-center space-x-2 mb-3">
           <Star size={16} className="text-yellow-400" />
           <span className="text-sm font-medium text-gray-600">{marca}</span>
         </div>
 
-        {/* Precio destacado */}
         <div className="mb-4">
           <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
             {formatearPrecio(precio)}
           </div>
         </div>
 
-        {/* Stock info */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <Package size={16} className="text-gray-400" />
@@ -128,7 +118,6 @@ const ProductoCard = ({ producto, onVerDetalle }) => {
           </span>
         </div>
 
-        {/* Botón de ver detalles */}
         <motion.button
           whileHover={{ scale: stock === 0 ? 1 : 1.02 }}
           whileTap={{ scale: stock === 0 ? 1 : 0.98 }}

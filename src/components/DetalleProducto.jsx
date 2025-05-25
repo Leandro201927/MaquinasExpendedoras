@@ -35,14 +35,11 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
     garantia
   } = producto;
 
-  // Manejar agregar al carrito
   const handleAgregarCarrito = async () => {
     setAgregando(true);
-    
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
       agregarProducto(producto);
-      
       toast.success('¡Producto agregado al carrito!', {
         duration: 3000,
         style: {
@@ -55,7 +52,6 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
           secondary: '#10B981',
         },
       });
-      
     } catch (error) {
       toast.error('Error al agregar producto', {
         duration: 3000,
@@ -122,7 +118,6 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
           onClick={(e) => e.stopPropagation()}
           className="bg-white rounded-3xl max-w-5xl w-full max-h-[95vh] overflow-y-auto shadow-2xl"
         >
-          {/* Header del modal */}
           <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 p-6 rounded-t-3xl z-10">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
@@ -139,11 +134,8 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
               </motion.button>
             </div>
           </div>
-
-          {/* Contenido del modal */}
           <div className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              {/* Imagen del producto */}
               <div className="space-y-6">
                 <motion.div 
                   initial={{ opacity: 0, x: -20 }}
@@ -162,8 +154,6 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
                     }}
                   />
                 </motion.div>
-                
-                {/* Indicadores de stock */}
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -189,15 +179,12 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
                   )}
                 </motion.div>
               </div>
-
-              {/* Información del producto */}
               <motion.div 
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
                 className="space-y-6"
               >
-                {/* Título y precio */}
                 <div>
                   <div className="flex items-center space-x-2 mb-2">
                     <div className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-sm font-medium px-3 py-1 rounded-full">
@@ -213,8 +200,6 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
                     {formatearPrecio(precio)}
                   </p>
                 </div>
-
-                {/* Información básica */}
                 <div className="grid grid-cols-2 gap-4">
                   <motion.div 
                     whileHover={{ scale: 1.02 }}
@@ -245,14 +230,10 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
                     <p className="font-bold text-orange-900">{garantia}</p>
                   </motion.div>
                 </div>
-
-                {/* Descripción */}
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">Descripción</h3>
                   <p className="text-gray-700 leading-relaxed text-lg">{descripcion}</p>
                 </div>
-
-                {/* Stock disponible */}
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">Disponibilidad</h3>
                   <div className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl">
@@ -275,8 +256,6 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
                     </div>
                   )}
                 </div>
-
-                {/* Botón agregar al carrito */}
                 <motion.button
                   whileHover={{ scale: stock === 0 ? 1 : 1.02 }}
                   whileTap={{ scale: stock === 0 ? 1 : 0.98 }}
@@ -302,8 +281,6 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
                     }
                   </span>
                 </motion.button>
-
-                {/* Información adicional */}
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -333,8 +310,6 @@ const DetalleProducto = ({ producto, onCerrar, isVisible }) => {
               </motion.div>
             </div>
           </div>
-
-          {/* Footer del modal */}
           <div className="border-t border-gray-200 p-6 bg-gray-50 rounded-b-3xl">
             <div className="flex justify-end">
               <motion.button

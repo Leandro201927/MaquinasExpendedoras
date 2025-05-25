@@ -8,7 +8,6 @@ const FiltroProductos = ({ onFiltrar, onLimpiar, filtrosActivos }) => {
     busqueda: ''
   });
 
-  // Cargar categorías al montar el componente
   useEffect(() => {
     const cargarCategorias = async () => {
       try {
@@ -18,11 +17,9 @@ const FiltroProductos = ({ onFiltrar, onLimpiar, filtrosActivos }) => {
         console.error('Error al cargar categorías:', error);
       }
     };
-
     cargarCategorias();
   }, []);
 
-  // Sincronizar filtros locales con filtros activos
   useEffect(() => {
     if (filtrosActivos) {
       setFiltros({
@@ -32,7 +29,6 @@ const FiltroProductos = ({ onFiltrar, onLimpiar, filtrosActivos }) => {
     }
   }, [filtrosActivos]);
 
-  // Manejar cambios en los filtros
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFiltros(prev => ({
@@ -41,20 +37,15 @@ const FiltroProductos = ({ onFiltrar, onLimpiar, filtrosActivos }) => {
     }));
   };
 
-  // Aplicar filtros
   const handleFiltrar = (e) => {
     e.preventDefault();
-    
-    // Limpiar espacios en blanco
     const filtrosLimpios = {
       categoria: filtros.categoria.trim(),
       busqueda: filtros.busqueda.trim()
     };
-
     onFiltrar(filtrosLimpios);
   };
 
-  // Limpiar filtros
   const handleLimpiar = () => {
     const filtrosVacios = {
       categoria: '',
@@ -69,10 +60,8 @@ const FiltroProductos = ({ onFiltrar, onLimpiar, filtrosActivos }) => {
       <h2 className="text-lg font-semibold text-gray-900 mb-4">
         Filtrar Productos
       </h2>
-      
       <form onSubmit={handleFiltrar} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Filtro por categoría (Select) */}
           <div>
             <label htmlFor="categoria" className="block text-sm font-medium text-gray-700 mb-2">
               Categoría
@@ -92,8 +81,6 @@ const FiltroProductos = ({ onFiltrar, onLimpiar, filtrosActivos }) => {
               ))}
             </select>
           </div>
-
-          {/* Filtro de búsqueda libre */}
           <div>
             <label htmlFor="busqueda" className="block text-sm font-medium text-gray-700 mb-2">
               Búsqueda libre
@@ -109,8 +96,6 @@ const FiltroProductos = ({ onFiltrar, onLimpiar, filtrosActivos }) => {
             />
           </div>
         </div>
-
-        {/* Botones */}
         <div className="flex flex-col sm:flex-row gap-3 pt-4">
           <button
             type="submit"
@@ -121,7 +106,6 @@ const FiltroProductos = ({ onFiltrar, onLimpiar, filtrosActivos }) => {
             </svg>
             Filtrar
           </button>
-          
           <button
             type="button"
             onClick={handleLimpiar}
@@ -134,8 +118,6 @@ const FiltroProductos = ({ onFiltrar, onLimpiar, filtrosActivos }) => {
           </button>
         </div>
       </form>
-
-      {/* Indicadores de filtros activos */}
       {(filtrosActivos?.categoria || filtrosActivos?.busqueda) && (
         <div className="mt-4 pt-4 border-t border-gray-200">
           <p className="text-sm text-gray-600 mb-2">Filtros activos:</p>
