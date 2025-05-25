@@ -20,16 +20,9 @@ function App() {
         >
           <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
             <Routes>
-              {/* Ruta principal - Requerimientos de compra */}
               <Route path="/" element={<RequerimientosCompra />} />
-              
-              {/* Vista de productos */}
               <Route path="/productos" element={<VistaProductos />} />
-              
-              {/* Carrito de compras */}
               <Route path="/carrito" element={<CarritoCompras />} />
-              
-              {/* Redirección para rutas no encontradas */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

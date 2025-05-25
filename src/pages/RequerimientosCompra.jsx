@@ -428,36 +428,6 @@ const RequerimientosCompra = () => {
             </motion.div>
           </form>
         </motion.div>
-
-        {/* Información adicional */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-8 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-2xl p-6 shadow-lg"
-        >
-          <h3 className="text-lg font-bold text-blue-900 mb-3">
-            ¿Qué sigue después?
-          </h3>
-          <ul className="text-sm text-blue-700 space-y-2">
-            <li className="flex items-center space-x-2">
-              <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-              <span>Podrá navegar por nuestro catálogo de productos</span>
-            </li>
-            <li className="flex items-center space-x-2">
-              <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-              <span>Filtrar productos según sus preferencias</span>
-            </li>
-            <li className="flex items-center space-x-2">
-              <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-              <span>Agregar productos a su carrito de compras</span>
-            </li>
-            <li className="flex items-center space-x-2">
-              <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-              <span>Finalizar su compra de forma segura</span>
-            </li>
-          </ul>
-        </motion.div>
       </div>
     </div>
   );
