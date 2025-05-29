@@ -20,7 +20,7 @@ import ReciboElectronico from '../components/ReciboElectronico';
 const CarritoCompras = () => {
   const navigate = useNavigate();
   const { productos, total, cantidad, cargoAdicional, eliminarProducto, limpiarCarrito } = useCarrito();
-  const { nombre, presupuesto, tipoEntrega, direccion, isValidated } = useRequerimientos();
+  const { nombre, presupuesto, tipoEntrega, direccion, isValidated, limpiar: limpiarRequerimientos } = useRequerimientos();
 
   // Estados locales
   const [mostrarCVV, setMostrarCVV] = useState(false);
@@ -272,6 +272,7 @@ const CarritoCompras = () => {
   const handleCerrarRecibo = () => {
     setMostrarRecibo(false);
     setDatosCompra(null);
+    limpiarRequerimientos();
     navigate('/');
   };
 
