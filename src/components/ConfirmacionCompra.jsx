@@ -62,7 +62,6 @@ const ConfirmacionCompra = ({
     <AnimatePresence>
       {isVisible && (
         <>
-          {/* Backdrop */}
           <motion.div
             variants={backdropVariants}
             initial="hidden"
@@ -72,7 +71,6 @@ const ConfirmacionCompra = ({
             onClick={onCancelar}
           />
 
-          {/* Modal */}
           <motion.div
             variants={modalVariants}
             initial="hidden"
@@ -84,7 +82,6 @@ const ConfirmacionCompra = ({
               className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
@@ -104,9 +101,7 @@ const ConfirmacionCompra = ({
                 </button>
               </div>
 
-              {/* Contenido */}
               <div className="p-6 space-y-6">
-                {/* Información del cliente */}
                 <div className="bg-blue-50 rounded-2xl p-4">
                   <h3 className="font-semibold text-blue-900 mb-3 flex items-center">
                     <Package className="w-5 h-5 mr-2" />
@@ -146,7 +141,6 @@ const ConfirmacionCompra = ({
                   </div>
                 </div>
 
-                {/* Productos */}
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
                     <Package className="w-5 h-5 mr-2" />
@@ -182,7 +176,6 @@ const ConfirmacionCompra = ({
                   </div>
                 </div>
 
-                {/* Información de pago */}
                 <div className="bg-green-50 rounded-2xl p-4">
                   <h3 className="font-semibold text-green-900 mb-3 flex items-center">
                     <CreditCard className="w-5 h-5 mr-2" />
@@ -204,7 +197,6 @@ const ConfirmacionCompra = ({
                   </div>
                 </div>
 
-                {/* Resumen financiero */}
                 <div className="bg-gray-50 rounded-2xl p-4">
                   <h3 className="font-semibold text-gray-900 mb-3">Resumen Total</h3>
                   <div className="space-y-2 text-sm">
@@ -227,7 +219,6 @@ const ConfirmacionCompra = ({
                   </div>
                 </div>
 
-                {/* Advertencia */}
                 <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4">
                   <div className="flex items-start space-x-3">
                     <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
@@ -242,7 +233,6 @@ const ConfirmacionCompra = ({
                 </div>
               </div>
 
-              {/* Footer con botones */}
               <div className="flex items-center justify-end space-x-4 p-6 border-t border-gray-200 bg-gray-50 rounded-b-3xl">
                 <button
                   onClick={onCancelar}

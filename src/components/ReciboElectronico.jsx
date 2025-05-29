@@ -60,7 +60,6 @@ const ReciboElectronico = ({
       className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 py-8"
     >
       <div className="max-w-4xl mx-auto px-4">
-        {/* Header de éxito */}
         <motion.div 
           variants={itemVariants}
           className="text-center mb-8"
@@ -82,7 +81,6 @@ const ReciboElectronico = ({
           </div>
         </motion.div>
 
-        {/* Botones de acción */}
         <motion.div 
           variants={itemVariants}
           className="flex flex-wrap justify-center gap-3 mb-8"
@@ -116,13 +114,11 @@ const ReciboElectronico = ({
           </motion.button>
         </motion.div>
 
-        {/* Recibo */}
         <motion.div 
           ref={reciboRef}
           variants={itemVariants}
           className="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-200 print:shadow-none print:border-black"
         >
-          {/* Header del recibo */}
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8">
             <div className="flex justify-between items-start">
               <div>
@@ -136,11 +132,8 @@ const ReciboElectronico = ({
             </div>
           </div>
 
-          {/* Información principal */}
           <div className="p-8 space-y-8">
-            {/* Datos del cliente y entrega */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Cliente */}
               <div className="bg-blue-50 rounded-2xl p-6">
                 <h3 className="font-bold text-blue-900 text-lg mb-4 flex items-center">
                   <Package className="w-5 h-5 mr-2" />
@@ -162,7 +155,6 @@ const ReciboElectronico = ({
                 </div>
               </div>
 
-              {/* Entrega */}
               <div className="bg-green-50 rounded-2xl p-6">
                 <h3 className="font-bold text-green-900 text-lg mb-4 flex items-center">
                   {tipoEntrega === 'domicilio' ? (
@@ -195,7 +187,6 @@ const ReciboElectronico = ({
               </div>
             </div>
 
-            {/* Método de pago */}
             <div className="bg-gray-50 rounded-2xl p-6">
               <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center">
                 <CreditCard className="w-5 h-5 mr-2" />
@@ -219,7 +210,6 @@ const ReciboElectronico = ({
               </div>
             </div>
 
-            {/* Productos */}
             <div>
               <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center">
                 <Package className="w-5 h-5 mr-2" />
@@ -270,7 +260,6 @@ const ReciboElectronico = ({
               </div>
             </div>
 
-            {/* Totales */}
             <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-6">
               <h3 className="font-bold text-gray-900 text-lg mb-4">Resumen Total</h3>
               <div className="space-y-3">
@@ -293,7 +282,6 @@ const ReciboElectronico = ({
               </div>
             </div>
 
-            {/* Información adicional */}
             <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-6">
               <h3 className="font-bold text-yellow-800 text-lg mb-3">Información Importante</h3>
               <ul className="space-y-2 text-sm text-yellow-700">
@@ -310,7 +298,6 @@ const ReciboElectronico = ({
             </div>
           </div>
 
-          {/* Footer */}
           <div className="bg-gray-100 p-6 text-center border-t">
             <p className="text-gray-600 font-medium">
               ¡Gracias por su compra! - Tienda Virtual de Productos de Primera Necesidad
@@ -321,7 +308,6 @@ const ReciboElectronico = ({
           </div>
         </motion.div>
 
-        {/* Botón para continuar */}
         <motion.div 
           variants={itemVariants}
           className="text-center mt-8"

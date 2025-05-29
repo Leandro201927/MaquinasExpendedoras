@@ -88,6 +88,9 @@ const VistaProductos = () => {
   }, [loading, hasMore, paginaActual, filtrosActivos, cargarProductos]);
 
   // Hook de scroll infinito
+  if (process.env.NODE_ENV === 'development') {
+    console.log('--- VistaProductos: Props to useInfiniteScroll ---', { cargarMasProductos, hasMore, loading });
+  }
   const { 
     isFetching, 
     lastElementRef, 

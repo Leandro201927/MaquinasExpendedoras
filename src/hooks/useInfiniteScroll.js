@@ -4,124 +4,221 @@ import { useState, useEffect, useCallback, useRef } from 'react';
  * Hook personalizado para implementar scroll infinito con IntersectionObserver
  * @param {Function} callback - Función a ejecutar cuando se alcanza el final del scroll
  * @param {boolean} hasMore - Indica si hay más elementos para cargar
- * @param {boolean} loading - Indica si está cargando datos actualmente
- * @returns {Array} [isFetching, lastElementRef, error]
+ * @param {boolean} loading - Indica si está cargando datos actualmente (estado del componente padre)
+ * @returns {object} Contiene isFetching, lastElementRef, error, resetInfiniteScroll, loadMore
  */
-export const useInfiniteScroll = (callback, hasMore, loading) => {
+export const useInfiniteScroll = (callback, hasMoreProp, loadingProp) => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
   const observerRef = useRef();
-  const previousCallbackRef = useRef();
 
-  // Función que se ejecuta cuando el IntersectionObserver detecta el elemento
+  // Refs to hold the latest values of props and state for the observer callback
+  const hasMoreRef = useRef(hasMoreProp);
+  const loadingRef = useRef(loadingProp);
+  const isFetchingRef = useRef(isFetching);
+
+  // Update refs whenever props/state change
+  useEffect(() => {
+    hasMoreRef.current = hasMoreProp;
+  }, [hasMoreProp]);
+
+  useEffect(() => {
+    loadingRef.current = loadingProp;
+  }, [loadingProp]);
+
+  useEffect(() => {
+    isFetchingRef.current = isFetching;
+  }, [isFetching]);
+
   const handleObserver = useCallback((entries) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('--- handleObserver CALLED! ---', entries);
+    }
     const target = entries[0];
-    
-    // Solo activar si:
-    // 1. El elemento está en la vista
-    // 2. Hay más elementos para cargar
-    // 3. No está cargando actualmente
-    // 4. No está ya fetching
-    if (target.isIntersecting && hasMore && !loading && !isFetching) {
+    if (!target) {
       if (process.env.NODE_ENV === 'development') {
-        console.log('🔄 Activando carga automática por scroll infinito');
+        console.log('--- handleObserver: No target in entries ---');
+      }
+      return;
+    }
+
+    const currentHasMore = hasMoreRef.current;
+    const currentLoading = loadingRef.current;
+    const currentIsFetching = isFetchingRef.current;
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔍 IntersectionObserver state (via refs):', {
+        isIntersecting: target.isIntersecting,
+        hasMore: currentHasMore,
+        parentLoading: currentLoading,
+        hookIsFetching: currentIsFetching
+      });
+    }
+    
+    if (target.isIntersecting && currentHasMore && !currentLoading && !currentIsFetching) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🔄 Triggering fetch due to scroll (setIsFetching will be true)...');
       }
       setIsFetching(true);
       setError(null);
+    } else if (process.env.NODE_ENV === 'development' && target.isIntersecting) {
+      console.log('❌ Fetch not triggered despite intersection because (checked refs):', {
+        hasMore: currentHasMore,
+        parentLoading: currentLoading,
+        hookIsFetching: currentIsFetching,
+        conditionHasMore: !currentHasMore,
+        conditionParentLoading: currentLoading,
+        conditionHookIsFetching: currentIsFetching
+      });
     }
-  }, [hasMore, loading, isFetching]);
+  }, [setIsFetching, setError]); // Now depends only on stable setters
 
   // Configurar el IntersectionObserver
   useEffect(() => {
     const options = {
-      root: null, // viewport como root
-      rootMargin: "100px", // Cargar 100px antes de llegar al final
-      threshold: 0.1 // Activar cuando el 10% del elemento esté visible
+      root: null,
+      rootMargin: "300px",
+      threshold: 0.1
     };
     
-    // Crear nuevo observer
+    if (process.env.NODE_ENV === 'development') {
+      console.log('--- useInfiniteScroll: Creating/Recreating IntersectionObserver ---', 
+        { 
+          hasMore: hasMoreRef.current, 
+          loading: loadingRef.current, 
+          isFetching: isFetchingRef.current 
+        }
+      );
+    }
+
     if (observerRef.current) {
       observerRef.current.disconnect();
     }
     
     observerRef.current = new IntersectionObserver(handleObserver, options);
+    const currentObserver = observerRef.current; // Capture instance for cleanup
     
     return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
+      currentObserver.disconnect();
+      if (process.env.NODE_ENV === 'development') {
+        console.log('--- useInfiniteScroll: Disconnected IntersectionObserver in cleanup ---');
       }
     };
-  }, [handleObserver]);
+  }, [handleObserver]); // This will now be stable
 
-  // Ejecutar callback cuando se necesita cargar más datos
-  useEffect(() => {
-    if (!isFetching || loading) return;
-    
-    fetchMoreData();
-  }, [isFetching, loading]);
-
-  // Función para cargar más datos
   const fetchMoreData = useCallback(async () => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('📦 fetchMoreData: Calling parent callback...');
+    }
     try {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('📦 Cargando más productos...');
-      }
       await callback();
       if (process.env.NODE_ENV === 'development') {
-        console.log('✅ Productos cargados exitosamente');
+        console.log('✅ fetchMoreData: Parent callback successful');
       }
-    } catch (error) {
-      console.error('❌ Error al cargar más datos:', error);
-      setError(error.message || 'Error al cargar más productos');
+    } catch (err) {
+      console.error('❌ fetchMoreData: Error in parent callback:', err);
+      setError(err.message || 'Error al cargar más productos');
     } finally {
       setIsFetching(false);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🏁 fetchMoreData: Finished, isFetching set to false');
+      }
     }
-  }, [callback]);
+  }, [callback, setIsFetching, setError]);
 
-  // Función para observar el elemento de referencia (último elemento)
+  useEffect(() => {
+    const currentLoading = loadingRef.current; // Read from ref
+    const currentIsFetching = isFetchingRef.current; // Read from ref
+
+    if (currentIsFetching && !currentLoading) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('--- useEffect [isFetching, loading]: Conditions met (via refs), calling fetchMoreData ---', 
+          { isFetching: currentIsFetching, loading: currentLoading }
+        );
+      }
+      fetchMoreData();
+    } else if (process.env.NODE_ENV === 'development') {
+      if (currentIsFetching && currentLoading) {
+         console.log('--- useEffect [isFetching, loading]: isFetching is true, but parent is loading (via refs). Waiting. ---', 
+           { isFetching: currentIsFetching, loading: currentLoading }
+         );
+      }
+    }
+    // This effect should run when the *logical conditions* based on isFetching or loading change.
+    // We use the refs for reading, but depend on the actual states for reactivity.
+  }, [isFetching, loadingProp, fetchMoreData]); 
+
   const lastElementRef = useCallback((node) => {
-    // No observar si está cargando
-    if (loading) return;
-    
-    // Desconectar observer anterior
+    const currentParentLoading = loadingRef.current; // Read from ref
+    if (process.env.NODE_ENV === 'development') {
+      console.log('--- lastElementRef CALLED ---', { 
+        node: node ? 'Node provided' : 'Node is null', 
+        parentLoading: currentParentLoading, // Log the value it's using
+        propLoading: loadingProp // Log the current prop value for comparison
+      });
+    }
+
     if (observerRef.current) {
       observerRef.current.disconnect();
+      if (process.env.NODE_ENV === 'development') {
+        console.log('--- lastElementRef: Disconnected current observer via disconnect() ---');
+      }
+    }
+
+    // Decision should be based on the most up-to-date loadingProp
+    if (loadingProp) { 
+      if (process.env.NODE_ENV === 'development') {
+        console.log('--- lastElementRef: Bailing out: loadingProp is true. Element will not be observed. ---');
+      }
+      return;
     }
     
-    // Observar nuevo nodo si existe
     if (node && observerRef.current) {
       if (process.env.NODE_ENV === 'development') {
-        console.log('👀 Observando último elemento para scroll infinito');
+        console.log('👀 lastElementRef: Observing new node with current observer instance.', node);
       }
       observerRef.current.observe(node);
+    } else if (process.env.NODE_ENV === 'development') {
+      console.log('--- lastElementRef: Not observing node.', { 
+        hasNode: !!node, 
+        hasObserverInstance: !!observerRef.current,
+        loadingProp // Log loadingProp here too
+      });
     }
-  }, [loading]);
+    // Add loadingProp to dependencies to re-run when it changes.
+  }, [loadingProp]); 
 
-  // Función para resetear el estado (útil para filtros)
   const resetInfiniteScroll = useCallback(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('--- resetInfiniteScroll CALLED ---');
+    }
     setIsFetching(false);
     setError(null);
     if (observerRef.current) {
       observerRef.current.disconnect();
     }
-  }, []);
+  }, [setIsFetching, setError]);
 
-  // Función manual para cargar más (botón de "Cargar más")
   const loadMore = useCallback(async () => {
-    if (loading || isFetching || !hasMore) return;
+    const currentParentLoading = loadingRef.current;
+    const currentIsFetching = isFetchingRef.current;
+    const currentHasMore = hasMoreRef.current;
+
+    if (currentParentLoading || currentIsFetching || !currentHasMore) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('--- loadMore: Bailing out (checked refs) ---', 
+          { loading: currentParentLoading, isFetching: currentIsFetching, hasMore: currentHasMore }
+        );
+      }
+      return;
+    }
     
+    if (process.env.NODE_ENV === 'development') {
+      console.log('--- loadMore: Manually triggering fetch (setIsFetching true) ---');
+    }
     setIsFetching(true);
     setError(null);
-    
-    try {
-      await callback();
-    } catch (error) {
-      console.error('Error al cargar más datos manualmente:', error);
-      setError(error.message || 'Error al cargar más productos');
-    } finally {
-      setIsFetching(false);
-    }
-  }, [callback, loading, isFetching, hasMore]);
+  }, [setIsFetching, setError]);
 
   return {
     isFetching,
